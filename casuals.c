@@ -145,7 +145,6 @@ void addtolast(char *dist){
   for (i = 0; dist[i] != '.'; ++i);
   for (j = i; dist[j] != '\0'; ++j);
   dist[--j] = dist[j] + 1;
-  printf("%c -----------\n", dist[j]);
 }
 
 void format(char *dist){
