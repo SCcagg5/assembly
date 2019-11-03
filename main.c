@@ -4,7 +4,7 @@
 int           main(int argc, char *argv[])
 {
   t_env       env;
-  t_call_list list = {{read_inst, trim, readfile}, 3};
+  t_call_list list = {{free_all, read_inst, trim, readfile}, 4};
   init_env(&env, argc, argv);
   while (list.size-- && !env.err)
     list.call[list.size](&env);
@@ -35,8 +35,8 @@ int           trim(t_env *env) {
 }
 
 int           init_env(t_env *env, int argc, char *argv[]) {
-  t_rules rules = {{"push", "assert", "add", "sub", "mul", "div",
-                    "mod", "pop", "dump", "print", "exit", "hist", NULL},
+  t_rules rules = {{"push", "assert", "add", "sub", "mul", "div", "mod",
+                    "pop", "dump", "print", "exit", "hist", NULL, "typup"},
                   {push_f, assert_f, add_f, sub_f, mul_f, div_f,
                   mod_f, pop_f, dump_f, print_f, exit_f, hist_f}
   };
@@ -92,6 +92,31 @@ int           read_inst(t_env *env) {
     print(opt);
     print("' <- ");
     return (error(env, "Invalid instruction"));
+  }
+  return (0);
+}
+
+int           free_all(t_env *env) {
+  t_stack *stack;
+  t_hist *hist = env->hist;
+  t_stack *tmps;
+  t_hist *tmph;
+  while ( hist != NULL) {
+      stack = hist->stack;
+     	while ( stack != NULL) {
+          tmps = stack;
+          stack = stack->next;
+          free(tmps);
+      }
+      tmph = hist;
+      hist = hist->next;
+      free(tmph);
+  }
+  stack = env->stack;
+  while (stack != NULL) {
+      tmps = stack;
+      stack = stack->next;
+      free(tmps);
   }
   return (0);
 }
@@ -188,11 +213,41 @@ int addstack(t_env *env, t_val val){
   return 0;
 }
 
-int popstack(t_env *env, char *ret[]){
+int stacksize(t_env *env){
+  t_stack *stack;
+  int i = 0;
+  stack = env->stack;
+  while (stack != NULL) {
+      i += 1;
+      stack = stack->next;
+  }
+  return (i);
+}
+
+int popstack(t_env *env, char *ret[], int *i){
   t_stack * stack;
   stack = env->stack;
+  if (stack == NULL){
+    return (1);
+  }
   my_strcpy(ret, env->stack->val.value);
+  if (*i < (int)env->stack->val.type){
+    *i = env->stack->val.type;
+  }
   env->stack = env->stack->next;
   free(stack);
+  return (0);
+}
+
+int getstack(t_env *env, char *ret[], int *i){
+  t_stack * stack;
+  stack = env->stack;
+  if (stack == NULL){
+    return (1);
+  }
+  my_strcpy(ret, env->stack->val.value);
+  if (*i < (int)env->stack->val.type){
+    *i = env->stack->val.type;
+  }
   return (0);
 }

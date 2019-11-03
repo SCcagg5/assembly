@@ -69,7 +69,7 @@ typedef struct s_hist
 
 typedef struct s_rules
 {
-  char *keyword[13];
+  char *keyword[14];
   int (*call[12])();
 }              t_rules;
 
@@ -118,6 +118,9 @@ int           compute(t_env *env, char *opt, char *type, char *val);
 int		my_cmp(const char *str1, const char *str2);
 int addhist(t_env *env, t_opt opt, t_val val);
 void read_hist(t_env *env);
+int           free_all(t_env *env);
+void format(char *dist);
+int typed(int type, char *val, t_env *env);
 
 /*----------------------- FUNCT END -----------------------------------*/
 #endif /* __ASSEMBL__ */

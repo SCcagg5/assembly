@@ -8,6 +8,14 @@ int error(t_env *env, char err[]){
   return(1);
 }
 
+int warning(t_env *env, char err[]){
+  print("[WARNING] ");
+  print(err);
+  print("\n");
+  env->err += 0;
+  return(0);
+}
+
 void print(char* text)
 {
   while (*text && write(1, text++, 1));
@@ -16,7 +24,7 @@ void print(char* text)
 int	my_strlen(char *str)
 {
   int	i = 0;
-  while (str[i++] != '\0');
+  while (str && str[i++] != '\0');
   return (i);
 }
 
@@ -29,7 +37,6 @@ char *concat(char *s1, char*s2)
   for (i = size1; i < size1 + size2; ++i){
     s1[i] = s2[i - size1];
   }
-
   s1[i] = '\0';
   return s1;
 }
@@ -52,19 +59,16 @@ char	*my_realloc(char *ptr, int size)
     while (c < size)
       ptr_realloc[c++] = '\0';
   ptr_realloc[c] = '\0';
+  free(ptr);
   return (ptr_realloc);
 }
 
 int		my_cmp(const char *str1, const char *str2)
 {
-  if (str1 == NULL || str2 == NULL)
-    return (0);
-  else if ((*str1 == '\0') && (*str2 == '\0'))
-    return (1);
-  else if (*str1 == *str2)
-    return (my_cmp(str1 + 1, str2 + 1));
-  else
-    return (0);
+  int i = 0;
+  for (i = 0; str1[i] != '\0' && str2[i] != '\0'
+      && str2[i] == str1[i]; ++i);
+  return (str1[i] == str2[i]);
 }
 
 char *my_strcpy(char *destination, char *source)
@@ -156,7 +160,7 @@ void format(char *dist){
       if (dist[i] == '9'){
         ard = 0;
         for (k = j; dist[k] != '\0'; ++k){
-          ard += dist[k] == '9' ? 0 : 1;
+          ard += dist[k] == '9' || dist[k] == '8' ? 0 : 1;
         }
         if (ard == 0){
           dist[--j] = '\0';
