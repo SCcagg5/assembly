@@ -96,11 +96,13 @@ int     init_env(t_env *env, int argc, char *argv[]);
 int	    my_strlen(char *str);
 void    print(char* text);
 int     error(t_env *env, char err[]);
+int warning(t_env *env, char err[]);
 char	 *my_realloc(char *ptr, int size);
 char   *concat(char *s1, char*s2);
 int read_inst(t_env *env);
 int get_details(t_env *env, char *opt);
 int trim(t_env *env);
+char *my_strcpy(char *destination, char *source);
 int push_f(t_env *env, char *opt, char *type, char *val);
 int assert_f(t_env *env, char *opt, char *type, char *val);
 int add_f(t_env *env, char *opt, char *type, char *val);
@@ -120,7 +122,16 @@ int addhist(t_env *env, t_opt opt, t_val val);
 void read_hist(t_env *env);
 int           free_all(t_env *env);
 void format(char *dist);
+double my_mod(double i, double j);
+void ftoa(char *dist, double num);
 int typed(int type, char *val, t_env *env);
+int gettype(t_env *env, char *type, double val);
+int errordet(t_env *env, char err[], char opt[]);
+int warningdet (t_env *env, char err[], char opt[]);
+int addstack(t_env *env, t_val val);
+int stacksize(t_env *env);
+int popstack(t_env *env, char ret[], int *i);
+int getstack(t_env *env, char ret[], int *i);
 
 /*----------------------- FUNCT END -----------------------------------*/
 #endif /* __ASSEMBL__ */

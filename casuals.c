@@ -8,6 +8,38 @@ int error(t_env *env, char err[]){
   return(1);
 }
 
+int errordet(t_env *env, char err[], char opt[]){
+  char *line = malloc(10 * sizeof(char));
+
+  ftoa(line, (double)env->line);
+  print("[ ERROR   | l:");
+  print(line);
+  print(" ] ");
+  print(err);
+  print(" -> ");
+  print(opt);
+  print("\n");
+  env->err = 1;
+  free(line);
+  return(1);
+}
+
+int warningdet (t_env *env, char err[], char opt[]){
+  char *line = malloc(10 * sizeof(char));
+
+  ftoa(line, (double)env->line);
+  print("[ Warning | l:");
+  print(line);
+  print(" ] ");
+  print(err);
+  print(" -> ");
+  print(opt);
+  print("\n");
+  env->err = 0;
+  free(line);
+  return(0);
+}
+
 int warning(t_env *env, char err[]){
   print("[WARNING] ");
   print(err);
@@ -146,9 +178,13 @@ void ftoa(char *dist, double num) {
 
 void addtolast(char *dist){
   int i, j;
+
+  i = 0;
+  j = 0;
   for (i = 0; dist[i] != '.'; ++i);
   for (j = i; dist[j] != '\0'; ++j);
-  dist[--j] = dist[j] + 1;
+  j -= 1;
+  dist[j] = dist[j] + 1;
 }
 
 void format(char *dist){

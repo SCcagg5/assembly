@@ -2,8 +2,10 @@
 
 int push_f(t_env *env, char *opt, char *type, char *val){
   t_val value = {0, ""};
-  value.type = gettype(type, atof(val));
-  if (type == 0){
+
+  (void) opt;
+  value.type = gettype(env, type, atof(val));
+  if (value.type == 0){
     return (1);
   }
   value.type = typed((int)value.type, val, env);
@@ -16,8 +18,10 @@ int assert_f(t_env *env, char *opt, char *type, char *val){
    t_val value = {0, ""};
    char ret[50];
    int i = 0;
-   value.type = gettype(type, atof(val));
-   if (type == 0){
+
+   (void) opt;
+   value.type = gettype(env, type, atof(val));
+   if (value.type == 0){
      return (1);
    }
    if (stacksize(env) < 1){
@@ -38,6 +42,9 @@ int add_f(t_env *env, char *opt, char *type, char *val){
    char ret1[50];
    char ret2[50];
    int i = 0;
+
+   (void) type;
+   (void) val;
    if (stacksize(env) < 2){
      print("\n'");
      print(opt);
@@ -59,6 +66,9 @@ int sub_f(t_env *env, char *opt, char *type, char *val){
   char ret1[50];
   char ret2[50];
   int i = 0;
+
+  (void) type;
+  (void) val;
   if (stacksize(env) < 2){
     print("\n'");
     print(opt);
@@ -80,6 +90,9 @@ int mul_f(t_env *env, char *opt, char *type, char *val){
   char ret1[50];
   char ret2[50];
   int i = 0;
+
+  (void) type;
+  (void) val;
   if (stacksize(env) < 2){
     print("\n'");
     print(opt);
@@ -101,6 +114,9 @@ int div_f(t_env *env, char *opt, char *type, char *val){
    char ret1[50];
    char ret2[50];
    int i = 0;
+
+   (void) type;
+   (void) val;
    if (stacksize(env) < 2){
      print("\n'");
      print(opt);
@@ -122,6 +138,9 @@ int mod_f(t_env *env, char *opt, char *type, char *val){
    char ret1[50];
    char ret2[50];
    int i = 0;
+
+   (void) type;
+   (void) val;
    if (stacksize(env) < 2){
      print("\n'");
      print(opt);
@@ -142,6 +161,9 @@ int pop_f(t_env *env, char *opt, char *type, char *val){
    t_val value = {0, ""};
    char ret[50];
    int i = 0;
+
+   (void) type;
+   (void) val;
    if (stacksize(env) < 1){
      print("\n'");
      print(opt);
@@ -156,7 +178,11 @@ int pop_f(t_env *env, char *opt, char *type, char *val){
 int dump_f(t_env *env, char *opt, char *type, char *val){
    t_val value = {0, ""};
    t_stack *stack = env->stack;
-    	while (stack != NULL) {
+
+   (void) opt;
+   (void) type;
+   (void) val;
+   while (stack != NULL) {
          print(stack->val.value);
          print("\n");
          stack = stack->next;
@@ -169,6 +195,10 @@ int print_f(t_env *env, char *opt, char *type, char *val){
    t_val value = {0, ""};
    int i = 0;
    char ret[50];
+
+   (void) opt;
+   (void) type;
+   (void) val;
    getstack(env, ret, &i);
    if (i == 1){
      i = atof(ret);
@@ -181,12 +211,20 @@ int print_f(t_env *env, char *opt, char *type, char *val){
 
 int exit_f(t_env *env, char *opt, char *type, char *val){
    t_val value = {0, ""};
+
+   (void) opt;
+   (void) type;
+   (void) val;
    addhist(env, 10, value);
    return (1);
  }
 
  int hist_f(t_env *env, char *opt, char *type, char *val){
     t_val value = {0, ""};
+
+    (void) opt;
+    (void) type;
+    (void) val;
     addhist(env, 11, value);
     read_hist(env);
     return (0);

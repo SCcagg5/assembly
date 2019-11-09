@@ -1,9 +1,14 @@
 CC = gcc
 CFLAGS = -W -Werror -Wextra -Wall -ansi -pedantic
 
-NAME =    not_mg
+NAME =    assembly
 
-SRC =    main.c 
+SRC =			main.c \
+					abilities.c \
+					casuals.c \
+					casuals2.c \
+					stack.c	\
+					utils.c
 
 OBJ =     $(SRC:%.c=%.o)
 
